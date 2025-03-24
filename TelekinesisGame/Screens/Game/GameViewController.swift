@@ -129,8 +129,8 @@ final class GameViewController: UIViewController, CAAnimationDelegate, AVCapture
             self.captureSession = AVCaptureSession()
             self.captureSession.sessionPreset = .high
             
-            guard let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-                print("Ошибка: Передняя камера не найдена")
+            guard let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+                // "Ошибка: Камера не найдена"
                 return
             }
             
@@ -157,35 +157,31 @@ final class GameViewController: UIViewController, CAAnimationDelegate, AVCapture
     
     private func processHandPose(_ observations: [VNHumanHandPoseObservation]) {
         guard let hand = observations.first else { return }
-        
+
         do {
-            // Получаем координаты запястья и основания ладони (среднего пальца)
-            let wrist = try hand.recognizedPoint(.wrist)
-            let indexMCP = try hand.recognizedPoint(.indexMCP)   // Основание указательного пальца
-            let middleMCP = try hand.recognizedPoint(.middleMCP) // Основание среднего пальца
-            let ringMCP = try hand.recognizedPoint(.ringMCP)     // Основание безымянного пальца
-            let littleMCP = try hand.recognizedPoint(.littleMCP) // Основание мизинца
-            
-            // Вычисляем центр ладони как среднее значение между запястьем и основаниями пальцев
-            let palmX = (wrist.location.x + indexMCP.location.x + middleMCP.location.x + ringMCP.location.x + littleMCP.location.x) / 5
-            let palmY = (wrist.location.y + indexMCP.location.y + middleMCP.location.y + ringMCP.location.y + littleMCP.location.y) / 5
-            
-            // Применяем сглаживание
-            let smoothedX = (self.lastPoint.x * 0.8) + ((1 - palmY) * UIScreen.main.bounds.width * 0.2)
-            
-            let smoothedY = (self.lastPoint.y * 0.8) + (palmX * UIScreen.main.bounds.height * 0.2)
+            let thumbTip = try hand.recognizedPoint(.thumbTip)
+            let indexTip = try hand.recognizedPoint(.indexTip)
+            let palm = try hand.recognizedPoint(.wrist)
+
+            let pinchDistance = distanceBetween(thumbTip, indexTip)
+
+            // Рассчитываем координаты в фоновом потоке
+            let smoothedX = (self.lastPoint.x * 0.8) + ((1 - palm.location.y) * UIScreen.main.bounds.width * 0.2)
+            let smoothedY = (self.lastPoint.y * 0.8) + (palm.location.x * UIScreen.main.bounds.height * 0.2)
             let newPosition = CGPoint(x: smoothedX, y: smoothedY)
-            
+
             // UI и работу со сценой выполняем в главном потоке
             DispatchQueue.main.async {
                 self.lastPoint = newPosition
-                
+
                 if let scene = self.gameSceneProtocol {
                     let convertedPosition = self.view.convert(newPosition, to: scene)
-                    self.gameSceneProtocol?.updateFingerPosition(to: convertedPosition) // Теперь передаем центр ладони
+                    if pinchDistance < 0.1 {
+                        self.gameSceneProtocol?.updateFingerPosition(to: convertedPosition)
+                    }
                 }
             }
-            
+
         } catch {
             print("Error recognizing hand pose: \(error)")
         }

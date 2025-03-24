@@ -3,7 +3,7 @@ import SpriteKit
 class BalloonNode: SKSpriteNode {
     
     init(textureName: String) {
-        let size = CGSize(width: 180, height: 220)
+        let size = CGSize(width: 100, height: 100)
         let texture = SKTexture(imageNamed: textureName)
         super.init(texture: texture, color: .clear, size: size)
         self.zPosition = ZPositions.ui + 1000

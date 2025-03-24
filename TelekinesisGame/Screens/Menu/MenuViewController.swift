@@ -10,25 +10,10 @@ final class MenuViewController: UIViewController {
     // MARK: - IBOutlet
     
     @IBOutlet private weak var playButton: UIButton!
-    @IBOutlet private weak var settingsButton: UIButton!
-    @IBOutlet private weak var shopButton: UIButton!
-    @IBOutlet private weak var dailyBonusMenuButton: UIButton!
-    @IBOutlet private weak var moneyLabel: UILabel!
     
     // MARK: - Properties
     
     private let presenter: IMenuPresenter
-    
-    private lazy var loaderLottieViewSoka: LottieAnimationView = {
-        let animationView = LottieAnimationView(name: "bgMenu")
-        animationView.frame = view.frame
-        animationView.translatesAutoresizingMaskIntoConstraints = false
-        animationView.loopMode = .loop
-        animationView.animationSpeed = 0.1
-        animationView.contentMode = .scaleAspectFill
-        
-        return animationView
-    }()
     
     // MARK: - Lifecycle
     
@@ -44,14 +29,6 @@ final class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.insertSubview(loaderLottieViewSoka, at: 0)
-        NSLayoutConstraint.activate([
-            loaderLottieViewSoka.topAnchor.constraint(equalTo: view.topAnchor),
-            loaderLottieViewSoka.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            loaderLottieViewSoka.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loaderLottieViewSoka.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
-        loaderLottieViewSoka.play()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,10 +40,7 @@ final class MenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        dailyBonusMenuButton.isUserInteractionEnabled = !LevelManager.shared.isDailyBonusCollected
-        dailyBonusMenuButton.isHidden = LevelManager.shared.isDailyBonusCollected
         presenter.viewWillAppear()
-        moneyLabel.text = "\(LevelManager.shared.money)"
         
         LevelManager.shared.money = 3000 // delete
     }
@@ -79,18 +53,6 @@ final class MenuViewController: UIViewController {
     
     @IBAction func playButtonAction(_ sender: UIButton) {
         presenter.showLevelsScreen()
-    }
-    
-    @IBAction func settingsButtonAction(_ sender: UIButton) {
-        presenter.showSettingsScreen()
-    }
-    
-    @IBAction func shopButtonAction(_ sender: UIButton) {
-        presenter.showShopScreen()
-    }
-    
-    @IBAction func dailyBonusMenuButtonAction(_ sender: Any) {
-        presenter.showDailyBonusView()
     }
 }
 

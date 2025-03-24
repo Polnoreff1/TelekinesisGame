@@ -9,7 +9,7 @@ final class BalloonGameScene: SKScene {
     
     weak var gameViewController: IGameViewController?
     var currentLevelIndex: Int = 0
-    private var magicStickNode: PlayerSword = PlayerSword()
+    // private var magicStickNode: PlayerSword = PlayerSword()
     
     private lazy var cameraNode = SKCameraNode()
     
@@ -23,20 +23,14 @@ final class BalloonGameScene: SKScene {
         }
     }
     
-//    private lazy var ingredient1Button: NodeButton = {
-//        let ingredientButton = NodeButton(type: .check)
-//        ingredientButton.position = CGPoint(x: frame.midX - 80, y: frame.midY)
-//        ingredientButton.touchesHandler = {
-//            self.showResultVC(resultType: .win)
-//        }
-//        return ingredientButton
-//    }()
-    
     var isCanStart: Bool = false
     
     lazy var balloon: BalloonNode = {
-        let balloon: BalloonNode = BalloonNode(textureName: "balloon")
-        balloon.position = CGPoint(x: magicStickNode.frame.midX, y: magicStickNode.frame.maxY + 100)
+        let balloon: BalloonNode = BalloonNode(textureName: "ball")
+        if let startNode = children.first(where: { $0.name == "BallStartNodde" }) {
+            balloon.position = CGPoint(x: startNode.frame.midX, y: startNode.frame.midY)
+        }
+        
         return balloon
     }()
     
@@ -53,9 +47,6 @@ final class BalloonGameScene: SKScene {
     
     private func startGame() {
         isCanStart = true
-        magicStickNode.isHidden = true
-        magicStickNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.addChild(magicStickNode)
         
         self.children.forEach { child in
             if let gameBG = child as? SKSpriteNode {
@@ -246,8 +237,8 @@ extension BalloonGameScene: SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if magicStickNode.parent != nil {
-            updateCameraPosition(for: magicStickNode)
+        if balloon.parent != nil {
+            self.cameraNode.run(.moveTo(y: balloon.position.y, duration: 0.2))
         }
         
     }
@@ -365,22 +356,43 @@ extension BalloonGameScene: SKPhysicsContactDelegate {
 
 extension BalloonGameScene: IBalloonGameScene {
     func updateFingerPosition(to position: CGPoint) {
-        if isCanStart {
-            if !isAddedBalloon {
-                addBall()
-                isAddedBalloon = true
-            }
-            magicStickNode.isHidden = false
-            
-            let invertedPosition = CGPoint(x: -position.x, y: position.y)
-            
-            let moveDuration: TimeInterval = 0.1
-            let moveAction = SKAction.move(to: invertedPosition, duration: moveDuration)
-            magicStickNode.run(moveAction)
+        guard isCanStart else { return }
+        
+        if !isAddedBalloon {
+            addBall()
+            isAddedBalloon = true
         }
         
+        // Получаем текущую позицию мяча
+        let currentPosition = balloon.position
+        
+        // Рассчитываем направление импульса
+        let dx = position.x - currentPosition.x
+        let dy = position.y - currentPosition.y
+        
+        // Нормализация вектора
+        let distance = sqrt(dx * dx + dy * dy)
+        guard distance > 0 else { return }
+        
+        // Контролируем силу импульса (чтобы не улетал)
+        let impulseStrength: CGFloat = 2.0 // Чем больше, тем сильнее толчок
+        let impulse = CGVector(dx: (dx / distance) * impulseStrength,
+                               dy: (dy / distance) * impulseStrength)
+        
+        // Применяем импульс к физическому телу мяча
+        balloon.physicsBody?.applyImpulse(impulse)
+        
+        // Ограничиваем максимальную скорость для плавности
+        let maxSpeed: CGFloat = 300.0
+        if let velocity = balloon.physicsBody?.velocity {
+            let speed = sqrt(velocity.dx * velocity.dx + velocity.dy * velocity.dy)
+            if speed > maxSpeed {
+                let scale = maxSpeed / speed
+                balloon.physicsBody?.velocity = CGVector(dx: velocity.dx * scale, dy: velocity.dy * scale)
+            }
+        }
     }
-    
+
     
     func startGameAfterTutorial() {
         startGame()
