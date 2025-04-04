@@ -37,7 +37,7 @@
 		7599E7AB2D916F7D009A21A8 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599E7A62D916F7D009A21A8 /* ResultViewModel.swift */; };
 		7599E7AC2D916F7D009A21A8 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599E7A42D916F7D009A21A8 /* ResultViewController.swift */; };
 		7599E7AD2D916F7D009A21A8 /* ResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7599E7A52D916F7D009A21A8 /* ResultViewController.xib */; };
-		7599E7B92D917114009A21A8 /* BalloonGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599E7B22D917114009A21A8 /* BalloonGameScene.swift */; };
+		7599E7B92D917114009A21A8 /* BallGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599E7B22D917114009A21A8 /* BallGameScene.swift */; };
 		7599E7BA2D917114009A21A8 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599E7B32D917114009A21A8 /* GameViewController.swift */; };
 		7599E7BB2D917114009A21A8 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7599E7B42D917114009A21A8 /* GameViewController.xib */; };
 		7599E7BD2D917114009A21A8 /* BallGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7599E7B52D917114009A21A8 /* BallGameScene.sks */; };
@@ -86,7 +86,7 @@
 		7599E7A52D916F7D009A21A8 /* ResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultViewController.xib; sourceTree = "<group>"; };
 		7599E7A62D916F7D009A21A8 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		7599E7A72D916F7D009A21A8 /* ResultViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModelFactory.swift; sourceTree = "<group>"; };
-		7599E7B22D917114009A21A8 /* BalloonGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonGameScene.swift; sourceTree = "<group>"; };
+		7599E7B22D917114009A21A8 /* BallGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallGameScene.swift; sourceTree = "<group>"; };
 		7599E7B32D917114009A21A8 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		7599E7B42D917114009A21A8 /* GameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		7599E7B52D917114009A21A8 /* BallGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BallGameScene.sks; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 		7599E78C2D916F57009A21A8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				7599E7B22D917114009A21A8 /* BalloonGameScene.swift */,
+				7599E7B22D917114009A21A8 /* BallGameScene.swift */,
 				7599E7B32D917114009A21A8 /* GameViewController.swift */,
 				7599E7B42D917114009A21A8 /* GameViewController.xib */,
 				7599E7B52D917114009A21A8 /* BallGameScene.sks */,
@@ -366,7 +366,7 @@
 				7599E7A82D916F7D009A21A8 /* ResultViewModelFactory.swift in Sources */,
 				7599E7A92D916F7D009A21A8 /* ResultAssembly.swift in Sources */,
 				7599E7AA2D916F7D009A21A8 /* ResultPresenter.swift in Sources */,
-				7599E7B92D917114009A21A8 /* BalloonGameScene.swift in Sources */,
+				7599E7B92D917114009A21A8 /* BallGameScene.swift in Sources */,
 				7599E7BA2D917114009A21A8 /* GameViewController.swift in Sources */,
 				7599E7AB2D916F7D009A21A8 /* ResultViewModel.swift in Sources */,
 				7599E7AC2D916F7D009A21A8 /* ResultViewController.swift in Sources */,
