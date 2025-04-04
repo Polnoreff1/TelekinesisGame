@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GummyBear.ttf</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>The app requires access to the device&apos;s camera to track hand position and gestures for game controls. The app does not record or store photos or videos from the device&apos;s camera.</string>
+</dict>
+</plist>

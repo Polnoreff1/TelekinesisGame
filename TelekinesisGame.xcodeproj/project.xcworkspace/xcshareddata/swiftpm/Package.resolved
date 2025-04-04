@@ -1,0 +1,24 @@
+{
+  "originHash" : "44de3c9d63dc6ef6a0c339a4be160639fd1629060a71315d4cf045b255bdbdc4",
+  "pins" : [
+    {
+      "identity" : "ahandgesturekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Polnoreff1/AHandGestureKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "12837014f14dbf32f4dc3cccbda65bb384139670"
+      }
+    },
+    {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm.git",
+      "state" : {
+        "revision" : "8c6edf4f0fa84fe9c058600a4295eb0c01661c69",
+        "version" : "4.5.1"
+      }
+    }
+  ],
+  "version" : 3
+}
